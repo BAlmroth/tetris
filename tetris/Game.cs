@@ -56,7 +56,10 @@ class Game
 
     void Tick()
     {
-        _block.Y = _block.Y + 1;
+        if (_block.Y + _block.Shape.GetLength(0) < _board.Height)
+        {
+            _block.Y = _block.Y + 1;
+        }
         _board.Draw();
         _block.Draw();
         ScheduleNextTick();
