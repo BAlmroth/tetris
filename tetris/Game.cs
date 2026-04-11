@@ -4,6 +4,11 @@
 // making one huge Game class.
 //
 
+namespace tetris
+{
+    
+}
+
 class Game
 {
     ScheduleTimer? _timer;

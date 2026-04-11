@@ -6,13 +6,9 @@ public class Block
     public int Y { get; set; }
     public int[,] Shape { get; set; }
 
-    public Block()
+    public Block(int[,] shape)
     {
-        Shape = new int[,]
-        {
-            { 1, 1, 1 },
-            { 0, 1, 0 }
-        };
+        Shape = shape;
     }
 
     public void Draw()

@@ -1,12 +1,13 @@
 ﻿using tetris;
 
+Console.CursorVisible = false;
+
 var board = new Board() { X = 0, Y = 0 };
 board.Draw();
 
-var block = new Block() { X = 1, Y = 2 };
+var block = new Block(Shapes.O) { X = 1, Y = 2 };
 block.Draw();
 
-/*
 var game = new Game();
 
 game.Start();
@@ -42,4 +43,3 @@ while ( ! game.GameOver)
         }
     }
 }
-*/
