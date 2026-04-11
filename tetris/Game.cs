@@ -63,6 +63,11 @@ class Game
             if (_block.Y + _block.Shape.GetLength(0) < _board.Height)
                 _block.Y = _block.Y + 1;
         }
+
+        if (key == ConsoleKey.UpArrow)
+        {
+            _block.Rotate();
+        }
         
         _board.Draw();
         _block.Draw();
