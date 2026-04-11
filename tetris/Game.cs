@@ -80,6 +80,11 @@ class Game
         {
             _block.Y = _block.Y + 1;
         }
+        else
+        {
+            BottomBlock();
+            _block = new Block(Shapes.T) { X = 2, Y = 0 };   
+        }
         _board.Draw();
         _block.Draw();
         ScheduleNextTick();
@@ -89,5 +94,20 @@ class Game
     {
         // the game will automatically update itself every half a second, adjust as needed
         _timer = new ScheduleTimer(800, Tick);
+    }
+
+    void BottomBlock()
+    {
+        for (int row = 0; row < _block.Shape.GetLength(0); row++)
+        {
+            for (int col = 0; col < _block.Shape.GetLength(1); col++)
+            {
+                //gör om block till tiles i boarden
+                if (_block.Shape[row, col] == 1)
+                {
+                    _board.Tiles[_block.X + col, _block.Y + row] = 1;
+                }
+            }
+        }
     }
 }
