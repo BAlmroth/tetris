@@ -6,11 +6,6 @@
 
 using tetris;
 
-namespace tetris
-{
-    
-}
-
 class Game
 {
     ScheduleTimer? _timer;
@@ -51,7 +46,27 @@ class Game
 
     public void Input(ConsoleKey key)
     {
-        Console.WriteLine($"Player pressed key: {key}");
+        if (key == ConsoleKey.LeftArrow)
+        {
+            if (_block.X > 0)
+                _block.X = _block.X - 1;
+        }
+
+        if (key == ConsoleKey.RightArrow)
+        {
+            if (_block.X + _block.Shape.GetLength(1) < _board.Width)
+                _block.X = _block.X + 1;
+        }
+        
+        if (key == ConsoleKey.Spacebar)
+        {
+            if (_block.Y + _block.Shape.GetLength(0) < _board.Height)
+                _block.Y = _block.Y + 1;
+        }
+        
+        _board.Draw();
+        _block.Draw();
+
     }
 
     void Tick()

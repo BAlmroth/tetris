@@ -20,6 +20,7 @@ while ( ! game.GameOver)
             case ConsoleKey.DownArrow:
             case ConsoleKey.LeftArrow:
             case ConsoleKey.RightArrow:
+            case ConsoleKey.Spacebar:
                 if (!game.Paused)
                     game.Input(input.Key);
                 break;
