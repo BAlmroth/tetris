@@ -4,6 +4,8 @@
 // making one huge Game class.
 //
 
+using tetris;
+
 namespace tetris
 {
     
@@ -16,9 +18,14 @@ class Game
     public bool Paused { get; private set; }
     public bool GameOver { get; private set; }
 
+    private Board _board = new Board() { X = 0, Y = 0 };
+    private Block _block = new Block(Shapes.T) { X = 2, Y = 0 };
+    
     public void Start()
     {
         Console.WriteLine("Start");
+        _board.Draw();
+        _block.Draw();
         ScheduleNextTick();
     }
 
@@ -49,13 +56,15 @@ class Game
 
     void Tick()
     {
-        Console.WriteLine("Tick");
+        _block.Y = _block.Y + 1;
+        _board.Draw();
+        _block.Draw();
         ScheduleNextTick();
     }
 
     void ScheduleNextTick()
     {
         // the game will automatically update itself every half a second, adjust as needed
-        _timer = new ScheduleTimer(500, Tick);
+        _timer = new ScheduleTimer(800, Tick);
     }
 }
