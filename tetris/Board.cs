@@ -4,8 +4,8 @@ public class Board
 {
     public int X { get; set; }
     public int Y { get; set; }
-    public int Width { get; set; } = 5;
-    public int Height { get; set; } = 10;
+    public int Width { get; set; } = 10;
+    public int Height { get; set; } = 15;
     public int[,] Tiles { get; set; }
 
 
