@@ -15,6 +15,7 @@ class Game
 
     private Board _board = new Board() { X = 0, Y = 0 };
     private Block _block;
+    private Random _random = new Random();
     
     public void Start()
     {
@@ -66,7 +67,7 @@ class Game
 
             BottomBlock();
             DeleteRows();
-            _block = nextBlock();
+            SpawnNextBlock();
         }
 
         if (key == ConsoleKey.UpArrow)
@@ -88,7 +89,7 @@ class Game
         {
             BottomBlock();
             DeleteRows();
-            _block = nextBlock();
+            SpawnNextBlock();
         }
         _board.Draw();
         _block.Draw();
@@ -104,9 +105,9 @@ class Game
     //
     void BottomBlock()
     {
-        for (int row = 0; row < _block.Shape.GetLength(0); row++)
+        for (int row = 0; row < _block.Shape.GetLength(0); row++) //gör om alla dessa till en funktion?
         {
-            for (int col = 0; col < _block.Shape.GetLength(1); col++)
+            for (int col = 0; col < _block.Shape.GetLength(1); col++) //gör om alla dessa till en funktion?
             {
                 if (_block.Shape[row, col] == 1)
                 {
@@ -118,6 +119,15 @@ class Game
                 }
             }
         }
+    }
+    bool IsRowEmpty(int row)
+    {
+        for (int col = 0; col < _board.Width; col++)
+        {
+            if (_board.Tiles[col, row] == 1)
+                return false;
+        }
+        return true;
     }
 
     bool IsRowFull(int row)
@@ -141,7 +151,7 @@ class Game
 
     void MoveRowDown(int row, int numRows)
     {
-        for (int col = 0; col < _board.Width; col++)
+        for (int col = 0; col < _board.Width; col++) //gör om alla dessa till en funktion?
         {
             _board.Tiles[col, row + numRows] = _board.Tiles[col, row];
             _board.Tiles[col, row] = 0;
@@ -152,7 +162,7 @@ class Game
     {
         int cleared = 0;
 
-        for (int row = _board.Height - 1; row >= 0; row--)
+        for (int row = _board.Height - 1; row >= 0; row--) //gör om alla dessa till en funktion?
         {
             if (IsRowFull(row))
             {
@@ -170,9 +180,9 @@ class Game
     
     bool CanMoveDown()
     {
-        for (int row = 0; row < _block.Shape.GetLength(0); row++)
+        for (int row = 0; row < _block.Shape.GetLength(0); row++) //gör om alla dessa till en funktion?
         {
-            for (int col = 0; col < _block.Shape.GetLength(1); col++)
+            for (int col = 0; col < _block.Shape.GetLength(1); col++) //gör om alla dessa till en funktion?
             {
                 if (_block.Shape[row, col] == 1)
                 {
@@ -198,19 +208,29 @@ class Game
     
     Block nextBlock()
     {
-        var random = new Random();
         var shapes = new int[][,]
         {
-            Shapes.I,
-            Shapes.O,
-            Shapes.T,
-            Shapes.L,
-            Shapes.J,
-            Shapes.S,
-            Shapes.Z
+            Shapes.I, Shapes.O, Shapes.T, Shapes.L, Shapes.J, Shapes.S, Shapes.Z
         };
 
-        var shape = shapes[random.Next(shapes.Length)];
+        var shape = shapes[_random.Next(shapes.Length)];
         return new Block(shape) { X = 2, Y = 0 };
+    }
+    
+    bool IsGameOver()
+    {
+        return !(IsRowEmpty(0) && IsRowEmpty(1));
+    }
+    
+    void SpawnNextBlock()
+    {
+        _block = nextBlock();
+
+        if (IsGameOver())
+        {
+            GameOver = true;
+            Console.SetCursorPosition(0, 22);
+            Console.WriteLine("GAME OVER!");
+        }
     }
 }
