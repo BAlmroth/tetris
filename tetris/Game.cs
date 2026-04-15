@@ -14,11 +14,12 @@ class Game
     public bool GameOver { get; private set; }
 
     private Board _board = new Board() { X = 0, Y = 0 };
-    private Block _block = new Block(Shapes.I) { X = 2, Y = 0 };
+    private Block _block;
     
     public void Start()
     {
         Console.WriteLine("Start");
+        _block = nextBlock();
         _board.Draw();
         _block.Draw();
         ScheduleNextTick();
@@ -65,7 +66,7 @@ class Game
 
             BottomBlock();
             DeleteRows();
-            _block = new Block(Shapes.I) { X = 2, Y = 0 };
+            _block = nextBlock();
         }
 
         if (key == ConsoleKey.UpArrow)
@@ -87,7 +88,7 @@ class Game
         {
             BottomBlock();
             DeleteRows();
-            _block = new Block(Shapes.I) { X = 2, Y = 0 };
+            _block = nextBlock();
         }
         _board.Draw();
         _block.Draw();
@@ -193,5 +194,23 @@ class Game
             }
         }
         return true;
+    }
+    
+    Block nextBlock()
+    {
+        var random = new Random();
+        var shapes = new int[][,]
+        {
+            Shapes.I,
+            Shapes.O,
+            Shapes.T,
+            Shapes.L,
+            Shapes.J,
+            Shapes.S,
+            Shapes.Z
+        };
+
+        var shape = shapes[random.Next(shapes.Length)];
+        return new Block(shape) { X = 2, Y = 0 };
     }
 }
