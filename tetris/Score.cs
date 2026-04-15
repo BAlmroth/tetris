@@ -16,5 +16,8 @@ public class Score
     {
         Console.SetCursorPosition(board.X, board.Y + board.Height + 2);
         Console.WriteLine($"Score: {Points}");
+
+        Console.SetCursorPosition(board.X, board.Y + board.Height + 3);
+        Console.WriteLine("P = pause | Esc = terminate program | Space = harddrop");
     }
 }

@@ -6,7 +6,7 @@ var game = new Game();
 
 game.Start();
 
-while ( ! game.GameOver)
+while (true)
 {
     // listen to key presses
     if (Console.KeyAvailable)
@@ -21,7 +21,7 @@ while ( ! game.GameOver)
             case ConsoleKey.LeftArrow:
             case ConsoleKey.RightArrow:
             case ConsoleKey.Spacebar:
-                if (!game.Paused)
+                if (!game.Paused && !game.GameOver)
                     game.Input(input.Key);
                 break;
 
@@ -35,6 +35,11 @@ while ( ! game.GameOver)
             case ConsoleKey.Escape:
                 game.Stop();
                 return;
+            
+            case ConsoleKey.R:
+                if (game.GameOver)
+                    game.Restart();
+                break;
         }
     }
 }
