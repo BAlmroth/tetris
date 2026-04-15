@@ -22,7 +22,7 @@ public class Block
                 if (Shape[row, col] == 1)
                 {
                     Console.SetCursorPosition(X + col, Y + row);
-                    Console.Write("X");
+                    Console.Write("█");
                 }
             }
         }

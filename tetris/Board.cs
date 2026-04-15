@@ -23,9 +23,9 @@ public class Board
                 Console.SetCursorPosition(X + col, Y + row);
 
                 if (Tiles[col, row] == 0)
-                    Console.Write(".");
+                    Console.Write("□");
                 else
-                    Console.Write("X");
+                    Console.Write("█");
             }
         }
     }

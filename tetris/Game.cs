@@ -16,6 +16,7 @@ class Game
     private Board _board = new Board() { X = 0, Y = 0 };
     private Block _block;
     private Random _random = new Random();
+    private Score _score = new Score();
     
     public void Start()
     {
@@ -66,7 +67,7 @@ class Game
                 _block.Y = _block.Y + 1;
 
             BottomBlock();
-            DeleteRows();
+            _score.countPoints(DeleteRows());
             SpawnNextBlock();
         }
 
@@ -88,9 +89,10 @@ class Game
         else
         {
             BottomBlock();
-            DeleteRows();
+            _score.countPoints(DeleteRows());
             SpawnNextBlock();
         }
+        _score.Draw(_board);
         _board.Draw();
         _block.Draw();
         ScheduleNextTick();
