@@ -28,7 +28,7 @@ class Game
 
     public void Pause()
     {
-        Log("Pause");
+        Log("Game Paused");
         Paused = true;
         _timer!.Pause();
     }
@@ -194,8 +194,20 @@ class Game
             Shapes.I, Shapes.O, Shapes.T, Shapes.L, Shapes.J, Shapes.S, Shapes.Z
         };
 
-        var shape = shapes[_random.Next(shapes.Length)];
-        return new Block(shape) { X = 2, Y = 0 };
+        var colors = new ConsoleColor[]
+        {
+            ConsoleColor.Cyan,
+            ConsoleColor.Yellow,
+            ConsoleColor.Magenta,
+            ConsoleColor.Blue,
+            ConsoleColor.DarkRed,
+            ConsoleColor.Green,
+            ConsoleColor.Red
+        };
+
+        int index = _random.Next(shapes.Length);
+        var shape = shapes[index];
+        return new Block(shape, colors[index]) { X = 2, Y = 0 };
     }
 
     bool IsGameOver()
@@ -205,8 +217,6 @@ class Game
 
     void SpawnNextBlock()
     {
-        _block = nextBlock();
-
         if (IsGameOver())
         {
             GameOver = true;
@@ -216,7 +226,10 @@ class Game
 
             Console.SetCursorPosition(0, 22);
             Log("GAME OVER! - Press R to restart");
+            return;
         }
+
+        _block = nextBlock();
     }
 
     bool IsValidPosition(int[,] shape, int x, int y)

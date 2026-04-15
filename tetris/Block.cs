@@ -7,14 +7,18 @@ public class Block
     public int X { get; set; }
     public int Y { get; set; }
     public int[,] Shape { get; set; }
+    public ConsoleColor Color { get; set; }
 
-    public Block(int[,] shape)
+    public Block(int[,] shape, ConsoleColor color = ConsoleColor.White)
     {
         Shape = shape;
+        Color = color;
     }
 
     public void Draw()
     {
+        Console.ForegroundColor = Color;
+        
         for (int row = 0; row < Shape.GetLength(0); row++)
         {
             for (int col = 0; col < Shape.GetLength(1); col++)
@@ -26,6 +30,8 @@ public class Block
                 }
             }
         }
+        
+        Console.ResetColor();
     }
 
     public void Rotate()
