@@ -20,7 +20,6 @@ class Game
     
     public void Start()
     {
-        Console.WriteLine("Start");
         _block = nextBlock();
         _board.Draw();
         _block.Draw();
@@ -51,20 +50,20 @@ class Game
     {
         if (key == ConsoleKey.LeftArrow)
         {
-            if (_block.X > 0)
-                _block.X = _block.X - 1;
+            if (IsValidPosition(_block.Shape, _block.X - 1, _block.Y))
+                _block.X--;
         }
 
         if (key == ConsoleKey.RightArrow)
         {
-            if (_block.X + _block.Shape.GetLength(1) < _board.Width)
-                _block.X = _block.X + 1;
+            if (IsValidPosition(_block.Shape, _block.X + 1, _block.Y))
+                _block.X++;
         }
 
         if (key == ConsoleKey.Spacebar)
         {
-            while (CanMoveDown())
-                _block.Y = _block.Y + 1;
+            while (IsValidPosition(_block.Shape, _block.X, _block.Y + 1))
+                _block.Y++;
 
             BottomBlock();
             _score.countPoints(DeleteRows());
@@ -73,7 +72,12 @@ class Game
 
         if (key == ConsoleKey.UpArrow)
         {
+            var oldShape = _block.Shape;
+
             _block.Rotate();
+
+            if (!IsValidPosition(_block.Shape, _block.X, _block.Y))
+                _block.Shape = oldShape;
         }
 
         _board.Draw();
@@ -82,9 +86,9 @@ class Game
 
     void Tick()
     {
-        if (CanMoveDown())
+        if (IsValidPosition(_block.Shape, _block.X, _block.Y + 1))
         {
-            _block.Y = _block.Y + 1;
+            _block.Y++;
         }
         else
         {
@@ -96,7 +100,7 @@ class Game
         _board.Draw();
         _block.Draw();
         ScheduleNextTick();
-    } 
+    }
 
     void ScheduleNextTick()
     {
@@ -180,34 +184,6 @@ class Game
         return cleared;
     }
     
-    bool CanMoveDown()
-    {
-        for (int row = 0; row < _block.Shape.GetLength(0); row++) //gör om alla dessa till en funktion?
-        {
-            for (int col = 0; col < _block.Shape.GetLength(1); col++) //gör om alla dessa till en funktion?
-            {
-                if (_block.Shape[row, col] == 1)
-                {
-                    int nextX = _block.X + col;
-                    int nextY = _block.Y + row + 1;
-
-                    // check bottom of board
-                    if (nextY >= _board.Height)
-                        return false;
-
-                    // check left and right bounds
-                    if (nextX < 0 || nextX >= _board.Width)
-                        return false;
-
-                    // check if tile below is already filled
-                    if (_board.Tiles[nextX, nextY] == 1)
-                        return false;
-                }
-            }
-        }
-        return true;
-    }
-    
     Block nextBlock()
     {
         var shapes = new int[][,]
@@ -234,5 +210,31 @@ class Game
             Console.SetCursorPosition(0, 22);
             Console.WriteLine("GAME OVER!");
         }
+    }
+    
+    bool IsValidPosition(int[,] shape, int x, int y)
+    {
+        for (int row = 0; row < shape.GetLength(0); row++)
+        {
+            for (int col = 0; col < shape.GetLength(1); col++)
+            {
+                if (shape[row, col] != 1)
+                    continue;
+
+                int bx = x + col;
+                int by = y + row;
+
+                if (bx < 0 || bx >= _board.Width)
+                    return false;
+
+                if (by < 0 || by >= _board.Height)
+                    return false;
+
+                if (_board.Tiles[bx, by] == 1)
+                    return false;
+            }
+        }
+
+        return true;
     }
 }
